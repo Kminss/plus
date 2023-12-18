@@ -2,11 +2,14 @@ package com.sparta.plus.config;
 
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-
+@Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 	private static final String BASE_URL = "/api/v1";
 
@@ -24,8 +27,7 @@ public class SecurityConfig {
 		http.authorizeHttpRequests(authorizeHttpRequests ->
 			authorizeHttpRequests
 				.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // resources 접근 허용 설정
-				.requestMatchers(PathRequest.toH2Console()).permitAll()
-				.requestMatchers(BASE_URL + "/users").permitAll()
+				.requestMatchers(BASE_URL + "/users/**").permitAll()
 				.anyRequest().authenticated() // 그 외 모든 요청 인증처리
 		);
 
