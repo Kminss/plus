@@ -1,7 +1,10 @@
 package com.sparta.plus.service;
 
+import com.sparta.plus.dto.request.LoginRequest;
 import com.sparta.plus.dto.request.SignupRequest;
 import com.sparta.plus.dto.response.SignupResponse;
+
+import jakarta.servlet.http.HttpServletResponse;
 
 public interface UserService {
 	/**
@@ -17,4 +20,11 @@ public interface UserService {
 	 * @exception com.sparta.plus.exception.ApiException - 이미 닉네임이 존재하는 경우
 	 */
 	void checkNickname(String nickname);
+
+	/**
+	 *
+	 * @param request - 로그인 요청 dto
+	 * @param response - HttpServletResponse
+	 */
+	void login(LoginRequest request, HttpServletResponse response);
 }

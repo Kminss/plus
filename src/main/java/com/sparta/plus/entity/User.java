@@ -2,6 +2,8 @@ package com.sparta.plus.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,13 +26,18 @@ public class User {
 	@Column
 	private String password;
 
-	public User(String nickname, String password) {
+	@Column
+	@Enumerated(EnumType.STRING)
+	private UserRoleEnum role;
+
+	public User(String nickname, String password, UserRoleEnum role) {
 		this.nickname = nickname;
 		this.password = password;
+		this.role = role;
 	}
 
-	public static User of(String nickname, String encodedPassword) {
-		return new User(nickname, encodedPassword);
+	public static User of(String nickname, String encodedPassword, UserRoleEnum role) {
+		return new User(nickname, encodedPassword, role);
 	}
 }
 

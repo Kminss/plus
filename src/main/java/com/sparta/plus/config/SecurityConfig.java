@@ -7,11 +7,27 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
-@Configuration
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sparta.plus.security.CustomAuthenticationEntryPoint;
+import com.sparta.plus.security.JwtAuthorizationFilter;
+import com.sparta.plus.util.JwtUtils;
+
+import jakarta.servlet.Filter;
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @EnableWebSecurity
+@Configuration
 public class SecurityConfig {
 	private static final String BASE_URL = "/api/v1";
+	private final JwtUtils jwtUtils;
+	private final UserDetailsService userDetailService;
+	private final ObjectMapper objectMapper;
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -31,6 +47,21 @@ public class SecurityConfig {
 				.anyRequest().authenticated() // 그 외 모든 요청 인증처리
 		);
 
+		http.exceptionHandling(handle->handle.authenticationEntryPoint(authenticationEntryPoint()));
+
+		//Jwt 필터
+		http.addFilterBefore(jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+
 		return http.build();
+	}
+
+	@Bean
+	public AuthenticationEntryPoint authenticationEntryPoint() {
+		return new CustomAuthenticationEntryPoint(objectMapper);
+	}
+
+	@Bean
+	public Filter jwtAuthorizationFilter() {
+		return new JwtAuthorizationFilter(jwtUtils, userDetailService);
 	}
 }

@@ -17,6 +17,7 @@ import com.sparta.plus.config.PasswordEncoderConfig;
 import com.sparta.plus.dto.request.SignupRequest;
 import com.sparta.plus.dto.response.SignupResponse;
 import com.sparta.plus.entity.User;
+import com.sparta.plus.entity.UserRoleEnum;
 import com.sparta.plus.exception.ApiException;
 import com.sparta.plus.repository.UserRepository;
 import com.sparta.plus.service.impl.UserServiceImpl;
@@ -37,7 +38,7 @@ class UserServiceTest {
 	void 회원가입_테스트 () {
 	    //Given
 		SignupRequest request = SignupRequest.of("nickname", "password", "password");
-		User user = User.of(request.getNickname(), passwordEncoder.encode(request.getPassword()));
+		User user = User.of(request.getNickname(), passwordEncoder.encode(request.getPassword()), UserRoleEnum.USER);
 		ReflectionTestUtils.setField(user, "id", 1L);
 		given(userRepository.save(any())).willReturn(user);
 
@@ -53,7 +54,7 @@ class UserServiceTest {
 	void 회원가입_실패_테스트 ()  {
 		//Given
 		SignupRequest request = SignupRequest.of("nickname", "password", "password1");
-		User user = User.of(request.getNickname(), passwordEncoder.encode(request.getPassword()));
+		User user = User.of(request.getNickname(), passwordEncoder.encode(request.getPassword()), UserRoleEnum.USER);
 		ReflectionTestUtils.setField(user, "id", 1L);
 
 		//When && Then
