@@ -4,10 +4,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
 @Getter
-@Setter
 @RequiredArgsConstructor
 @ConfigurationProperties(prefix = "spring.data.redis")
 public class RedisProperties {
