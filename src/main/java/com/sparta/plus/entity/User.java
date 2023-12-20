@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "users")
 @Entity
-public class User {
+public class User extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -34,6 +34,8 @@ public class User {
 		this.nickname = nickname;
 		this.password = password;
 		this.role = role;
+		this.createdBy = nickname;
+		this.modifiedBy = nickname;
 	}
 
 	public static User of(String nickname, String encodedPassword, UserRoleEnum role) {

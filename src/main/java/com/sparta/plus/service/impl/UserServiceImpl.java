@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public void login(LoginRequest request, HttpServletResponse response) {
-		User user = findUser(request);
+		User user = userRepository.getByNickname(request.getNickname());
 
 		if (!checkLoginUser(request, user)) {
 			throw new MisMatchedLoginException();
@@ -112,10 +112,5 @@ public class UserServiceImpl implements UserService {
 		if (!password.equals(confirmPassword)) {
 			throw new ApiException(INVALID_PASSWORD);
 		}
-	}
-
-	public User findUser(LoginRequest request) {
-		return userRepository.findByNickname(request.getNickname())
-			.orElseThrow(() -> new ApiException(NOT_FOUND_USER));
 	}
 }
