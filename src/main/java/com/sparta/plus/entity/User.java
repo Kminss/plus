@@ -1,5 +1,7 @@
 package com.sparta.plus.entity;
 
+import java.util.Objects;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -21,7 +23,7 @@ public class User extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(length = 25)
+	@Column(length = 25, unique = true)
 	private String nickname;
 	@Column
 	private String password;
@@ -40,6 +42,20 @@ public class User extends BaseEntity {
 
 	public static User of(String nickname, String encodedPassword, UserRoleEnum role) {
 		return new User(nickname, encodedPassword, role);
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (!(o instanceof User user))
+			return false;
+		return this.getId().equals(user.getId());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(this.getId());
 	}
 }
 

@@ -1,5 +1,7 @@
 package com.sparta.plus.entity;
 
+import com.sparta.plus.dto.request.PostRequest;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -37,5 +39,10 @@ public class Post extends BaseEntity{
 
 	public static Post of(String title, String content, User user) {
 		return new Post(title, content, user);
+	}
+
+	public void update(PostRequest request) {
+		this.title = request.getTitle();
+		this.content = request.getContent();
 	}
 }
