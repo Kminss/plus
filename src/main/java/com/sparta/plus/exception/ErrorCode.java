@@ -12,6 +12,7 @@ public enum ErrorCode {
 	UNAUTHORIZED(401, "JWT 인증 실패"),
 
 	NOT_FOUND_USER(404, "유저를 찾을 수 없습니다."),
+	NOT_FOUND_POST(404, "게시글을 찾을 수 없습니다."),
 
 	ALREADY_EXIST_NICKNAME(409, "이미 닉네임이 존재합니다." );
 
