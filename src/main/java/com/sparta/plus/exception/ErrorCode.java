@@ -10,8 +10,10 @@ public enum ErrorCode {
 	MISMATCHED_LOGIN_INPUT(400, "닉네임 또는 패스워드를 확인해주세요."),
 
 	UNAUTHORIZED(401, "JWT 인증 실패"),
+	POST_PERMISSION_DENIED(403, "해당 게시글에대한 권한이 없습니다."),
 
 	NOT_FOUND_USER(404, "유저를 찾을 수 없습니다."),
+	NOT_FOUND_POST(404, "게시글을 찾을 수 없습니다."),
 
 	ALREADY_EXIST_NICKNAME(409, "이미 닉네임이 존재합니다." );
 
