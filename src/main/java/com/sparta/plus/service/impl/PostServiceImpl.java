@@ -1,11 +1,14 @@
 package com.sparta.plus.service.impl;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sparta.plus.dto.request.PostRequest;
 import com.sparta.plus.dto.response.PostCreateResponse;
 import com.sparta.plus.dto.response.PostGetResponse;
+import com.sparta.plus.dto.response.PostReadResponse;
 import com.sparta.plus.dto.response.PostUpdateResponse;
 import com.sparta.plus.entity.Post;
 import com.sparta.plus.entity.User;
@@ -55,6 +58,11 @@ public class PostServiceImpl implements PostService {
 
 		checkPermission(postUser, loginUser);
 		postRepository.delete(findPost);
+	}
+
+	@Override
+	public Page<PostReadResponse> read(Pageable pageable) {
+		return postRepository.getPosts(pageable);
 	}
 
 	private static void checkPermission(User postUser, User loginUser) {

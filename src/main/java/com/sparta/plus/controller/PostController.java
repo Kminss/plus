@@ -1,5 +1,9 @@
 package com.sparta.plus.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -16,6 +20,7 @@ import com.sparta.plus.dto.BaseResponse;
 import com.sparta.plus.dto.request.PostRequest;
 import com.sparta.plus.dto.response.PostCreateResponse;
 import com.sparta.plus.dto.response.PostGetResponse;
+import com.sparta.plus.dto.response.PostReadResponse;
 import com.sparta.plus.dto.response.PostUpdateResponse;
 import com.sparta.plus.security.CustomUserDetails;
 import com.sparta.plus.service.PostService;
@@ -41,6 +46,22 @@ public class PostController {
 			.body(
 				BaseResponse.builder()
 					.msg("게시글 생성 성공")
+					.data(response)
+					.build()
+			);
+	}
+
+	@GetMapping
+	public ResponseEntity<BaseResponse<Object>> read(
+		@PageableDefault(size = 5, sort = "createdDateTime", direction = Sort.Direction.DESC)
+		Pageable pageable
+	) {
+		Page<PostReadResponse> response = postService.read(pageable);
+
+		return ResponseEntity.status(HttpStatus.OK)
+			.body(
+				BaseResponse.builder()
+					.msg("게시글 목록 조회 성공")
 					.data(response)
 					.build()
 			);
