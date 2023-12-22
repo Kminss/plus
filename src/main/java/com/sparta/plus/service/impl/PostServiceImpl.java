@@ -61,6 +61,7 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Page<PostReadResponse> read(Pageable pageable) {
 		return postRepository.getPosts(pageable);
 	}
